@@ -1,4 +1,4 @@
-﻿ namespace concurrent_programming
+﻿ namespace class1
 {
     public class Calculator
     {
