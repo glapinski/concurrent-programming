@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "class1", "concurrent-programming\class1.csproj", "{3B5F9752-8D82-4B66-9283-397C73DC429A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "class1", "concurrent-programming\concurrent-programming\class1.csproj", "{3B5F9752-8D82-4B66-9283-397C73DC429A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{DC822B49-448E-4454-B64F-744F3CAB89E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "concurrent-programming\TestProject1\TestProject1.csproj", "{DC822B49-448E-4454-B64F-744F3CAB89E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
