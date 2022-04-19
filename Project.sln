@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{CF16C1ED-3782-46ED-887C-BC8A2E8B73D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Project1\Data\Data.csproj", "{CF16C1ED-3782-46ED-887C-BC8A2E8B73D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{D86FE7FB-C338-46F7-BB4D-AA12C6BC168A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Project1\Logic\Logic.csproj", "{D86FE7FB-C338-46F7-BB4D-AA12C6BC168A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationViewModel", "PresentationViewModel\PresentationViewModel.csproj", "{DEACE411-EB12-4DC3-9D15-DD3223F694CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationViewModel", "Project1\PresentationViewModel\PresentationViewModel.csproj", "{DEACE411-EB12-4DC3-9D15-DD3223F694CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationModel", "PresentationModel\PresentationModel.csproj", "{13546A57-F938-4F1A-B801-6115663D0E6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationModel", "Project1\PresentationModel\PresentationModel.csproj", "{13546A57-F938-4F1A-B801-6115663D0E6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationView", "PresentationView\PresentationView.csproj", "{AC5907FF-2572-4538-B77B-9D7913B105AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationView", "Project1\PresentationView\PresentationView.csproj", "{AC5907FF-2572-4538-B77B-9D7913B105AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
