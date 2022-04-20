@@ -5,13 +5,15 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Project1\Data\Data.csproj", "{CF16C1ED-3782-46ED-887C-BC8A2E8B73D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Project1\Logic\Logic.csproj", "{D86FE7FB-C338-46F7-BB4D-AA12C6BC168A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Project1\Logic\Logic.csproj", "{D86FE7FB-C338-46F7-BB4D-AA12C6BC168A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationViewModel", "Project1\PresentationViewModel\PresentationViewModel.csproj", "{DEACE411-EB12-4DC3-9D15-DD3223F694CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModel", "Project1\PresentationViewModel\ViewModel.csproj", "{DEACE411-EB12-4DC3-9D15-DD3223F694CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationModel", "Project1\PresentationModel\PresentationModel.csproj", "{13546A57-F938-4F1A-B801-6115663D0E6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Project1\PresentationModel\Model.csproj", "{13546A57-F938-4F1A-B801-6115663D0E6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationView", "Project1\PresentationView\PresentationView.csproj", "{AC5907FF-2572-4538-B77B-9D7913B105AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "View", "Project1\PresentationView\View.csproj", "{AC5907FF-2572-4538-B77B-9D7913B105AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{562DE331-C20B-457C-AFCC-0D0E489D2C7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DEACE411-EB12-4DC3-9D15-DD3223F694CF} = {562DE331-C20B-457C-AFCC-0D0E489D2C7A}
+		{13546A57-F938-4F1A-B801-6115663D0E6C} = {562DE331-C20B-457C-AFCC-0D0E489D2C7A}
+		{AC5907FF-2572-4538-B77B-9D7913B105AE} = {562DE331-C20B-457C-AFCC-0D0E489D2C7A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE45F2DF-B42E-44E9-92AA-B447DD537989}
