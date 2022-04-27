@@ -12,6 +12,9 @@ namespace Logic
         public abstract float xSpeed { get; set; }
         public abstract float ySpeed { get; set; }
         public abstract float radius { get; set; }
+
+        public abstract void UpdatePosition();
+        public abstract void ChangeDirection(char axis);
         public static BallAbstract CreateAPI(float x, float y, float xSpeed, float ySpeed, float radius)
         {
             return new Ball(x, y, xSpeed, ySpeed, radius);
@@ -60,13 +63,13 @@ namespace Logic
             this.radius = radius;
         }
 
-        public void UpdatePosition()
+        public override void UpdatePosition()
         {
             this.xPosition += this.xSpeed;
             this.yPosition += this.ySpeed;
         }
 
-        public void ChangeDirection(char axis)
+        public override void ChangeDirection(char axis)
         {
             if (axis == 'x')
             {

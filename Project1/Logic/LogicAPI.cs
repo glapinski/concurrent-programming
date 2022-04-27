@@ -1,33 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Logic
 {
-    public abstract class LogicAbstractAPI
+    public abstract class LogicAbstractApi
     {
         public abstract uint screen_width { get;  }
         public abstract uint screen_height { get; }
         public abstract void createBalls(uint count);
+        public abstract List<BallAbstract> GetBalls();
+
+        public static LogicAbstractApi CreateApi(uint width, uint height)
+        {
+            return new LogicApi(width, height);
+        }
 
     }
 
-    internal class LogicApi : LogicAbstractAPI
+    internal class LogicApi : LogicAbstractApi
     {
         public override uint screen_width { get; }
 
         public override uint screen_height { get; }
-        private List<Ball> balls;
-        public List<Ball> Balls
-        {
-            get { return balls; }
-        }
+        private List<BallAbstract> balls;
+
 
         public LogicApi(uint width, uint height)
         {
             screen_width = width;
             screen_height = height;
-            balls = new List<Ball>();
+            balls = new List<BallAbstract>();
         }
 
         public override void createBalls(uint count)
@@ -45,6 +47,9 @@ namespace Logic
             }
         }
 
-        
+        public override List<BallAbstract> GetBalls()
+        {
+            return balls;
+        }
     }
 }
