@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Project.Presentation
+namespace PresentationView
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
