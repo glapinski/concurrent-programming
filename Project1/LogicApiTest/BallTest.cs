@@ -32,8 +32,8 @@ namespace LogicTest
             Assert.AreEqual(90, testBall.xPosition);
             Assert.AreEqual(110, testBall.yPosition);
             testBall.ChangeDirection('y');
-            Assert.AreEqual(80, testBall.xPosition);
-            Assert.AreEqual(100, testBall.yPosition);
+            Assert.AreEqual(90, testBall.xPosition);
+            Assert.AreEqual(110, testBall.yPosition);
         }
     }
 }
