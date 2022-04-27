@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
-namespace DataTest
+namespace DataApiTest
 {
-    public class Tests
+    internal class DataApiTest
     {
         [SetUp]
         public void Setup()
