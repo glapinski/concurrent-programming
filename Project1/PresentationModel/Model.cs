@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Presentation
+namespace Presentation.Model
 {
     public class Model
     {
