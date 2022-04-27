@@ -5,8 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationView"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Balls" Height="450" Width="800">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="600*"/>
+            <ColumnDefinition Width="200*"/>
+        </Grid.ColumnDefinitions>
+        <Button Name="AddBallsButton"
+                    Content="Dodaj kulki"
+                    VerticalAlignment="Center"
+                    Padding="30" Grid.Column="1"/>
+        <TextBlock Grid.Column="1" Padding="10" Margin="65,120,35,-20"><Run Language="pl-pl" Text="Ilosc kulek"/><LineBreak/><Run Language="pl-pl"/></TextBlock>
+        <TextBox Name="BallsCount" Text="" Grid.Column="1" Margin="76,149,71,261"/>
+        
     </Grid>
 </Window>
