@@ -7,7 +7,7 @@ namespace Model
     public abstract class ModelAbstractApi
     {
         public abstract List<BallModel> balls { get; }
-        public abstract void CreateBalls(uint count);
+        public abstract void CreateBalls(int count);
         public static ModelAbstractApi CreateApi()
         {
             return new ModelApi();
@@ -34,7 +34,7 @@ namespace Model
             return ballModels;
         }
 
-        public override void CreateBalls(uint count)
+        public override void CreateBalls(int count)
         {
             _logicApi.createBalls(count);
             _logicApi.start();

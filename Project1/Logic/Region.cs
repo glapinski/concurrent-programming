@@ -25,7 +25,7 @@ namespace Logic
             changePosition = new Task(MoveBalls);
             changePosition.Start();
         }
-        public void addBalls(uint BallsNumber)
+        public void addBalls(int BallsNumber)
         {
             throw new NotImplementedException();
         }

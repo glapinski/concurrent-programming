@@ -7,29 +7,39 @@ namespace Presentation.ViewModel
 {
     internal class RelayCommand : ICommand
     {
-        Action<object> _execute;
-        Func<object, bool> _canExecute;
+        private readonly Action _execute;
+        private readonly Func<bool> _canExecute;
 
         public event EventHandler CanExecuteChanged;
 
-        public RelayCommand(Action<object> execute, Func<object,bool> canExecute)
+        public RelayCommand(Action execute, Func<bool> canExecute)
         {
-            _execute = execute;
-            _canExecute = canExecute;
+            this._execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            this._canExecute = canExecute;
         }
 
-        public void Execute(object obj)
+        public RelayCommand(Action execute) : this(execute, null) { }
+
+        public virtual void Execute(object obj)
         {
-            _execute(obj);
+            this._execute();
         }
 
         public bool CanExecute(object obj)
         {
-            if (_canExecute != null)
+            if (this._canExecute == null)
             {
-                return _canExecute(obj);
+                return true;
             }
-            return false;
+            if (obj == null)
+            {
+                return this._canExecute();
+            }
+            return this._canExecute();
+        }
+        public void RaiseCanExecuteChanged()
+        {
+            this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

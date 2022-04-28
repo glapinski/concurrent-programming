@@ -7,7 +7,7 @@ namespace Logic
 {
     public abstract class LogicAbstractApi
     {
-        public abstract void createBalls(uint count);
+        public abstract void createBalls(int count);
         public abstract List<Ball> GetBalls();
 
         public abstract void start();
@@ -31,7 +31,7 @@ namespace Logic
             _region = new Region(500);
         }
 
-        public override void createBalls(uint count)
+        public override void createBalls(int count)
         {
             _region.addBalls(count);         
         }
