@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewmodel="clr-namespace:Presentation.ViewModel;assembly=ViewModel"
+        xmlns:viewmodel="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
-    <Window.Resources>
-        <viewmodel:ViewModel x:Key="vm"></viewmodel:ViewModel>
-    </Window.Resources>
+        Title="MainWindow" Height="700" Width="1000" ResizeMode="NoResize">
+    <Window.DataContext>
+        <viewmodel:ViewModel/>
+    </Window.DataContext>
     <StackPanel Orientation="Vertical">
 
         <Canvas Width="536" Height="684">
@@ -17,20 +17,17 @@
                     <RowDefinition Height="29*"/>
                     <RowDefinition Height="39*"/>
                 </Grid.RowDefinitions>
-                <!-- Stop button -->
-                <Button x:Name="stopButton" Content="STOP" FontSize="25" Margin="-170,218,850,77" IsEnabled="{Binding NotState}" Command="{Binding StopButtonClick}" />
-                <!-- Start button -->
-                <Button x:Name="startButton" Content="START" FontSize="25" Margin="-170,118,850,177" IsEnabled="{Binding State}" Command="{Binding StartButtonClicked}" />
+                <Button x:Name="startButton" Content="START" FontSize="25" Margin="-170,118,850,177" IsEnabled="{Binding Active}" Command="{Binding StartButtonClicked}" />
                 <Label Height="50" FontSize="25" Foreground="LightGray" Margin="-170,49,850,454" Content="{Binding ErrorMessage}" Grid.Row="1"/>
-                <TextBox IsEnabled="{Binding State}" Name="intputText" Text="{Binding InputText}" FontSize="30" TextAlignment="Center" Height="50"  Width="240" BorderBrush="White"  BorderThickness="2" Margin="-170,318,850,535" Grid.RowSpan="2"/>
+                <TextBox IsEnabled="{Binding Active}" Name="intputText" Text="{Binding InputText}" FontSize="30" TextAlignment="Center" Height="50"  Width="240" BorderBrush="Gray"  BorderThickness="2" Margin="-170,318,850,535" Grid.RowSpan="2"/>
 
                 <Grid x:Name="board" Width="580" Height="580" Margin="90,40,160,257" Grid.RowSpan="2" >
 
                     <Border BorderBrush="Gray" Background="LightGray" BorderThickness="3">
-                        <ItemsControl ItemsSource="{Binding Balls}">
+                        <ItemsControl ItemsSource="{Binding balls}" Margin="0,0,7,-3">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <Canvas Height="550" Width="550" />
+                                    <Canvas Height="500" Width="500" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
 

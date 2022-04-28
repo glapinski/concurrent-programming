@@ -10,7 +10,7 @@ using Prism.Mvvm;
 using Model;
 using System.Collections.ObjectModel;
 
-namespace Presentation.ViewModel
+namespace ViewModel
 {
     public class ViewModel : INotifyPropertyChanged
     {

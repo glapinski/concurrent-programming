@@ -27,7 +27,11 @@ namespace Logic
         }
         public void addBalls(int BallsNumber)
         {
-            throw new NotImplementedException();
+            balls = new List<Ball>();
+            for(int i = 0;i<BallsNumber ;i++)
+            {
+                balls.Add(new Ball());
+            }
         }
 
         public void MoveBall()
