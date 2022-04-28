@@ -4,37 +4,45 @@ namespace Logic
 {
     public class Ball 
     {
-        public float x { get; set; }
-        public float y { get; set; }
-        public float xS { get; set; }
-        public float yS { get; set; }
-        public float r { get; set; }
+        public double x { get; set; }
+        public double y { get; set; }
+        public double xS { get; set; }
+        public double yS { get; set; }
+        public double r { get; set; }
+
+        Random rng = new Random();
+        public double generateRandomDouble(double min, double max)
+        {
+            return rng.NextDouble() * (max - min) + min;
+        }
 
         public Ball()
-        {
-            Random rng = new Random();
-            x = rng.Next(1, 500);
-            y = rng.Next(1, 500);
+        {         
+            x = generateRandomDouble(1, 500);
+            y = generateRandomDouble(1, 500);
 
-            xS = rng.Next(1, 5);
-            yS = rng.Next(1, 5);
+            xS = generateRandomDouble(1, 3);
+            yS = generateRandomDouble(1, 3);
 
             r = 10;
         }
 
         public void updatePosition(int axis)
         {
-            float x2 = x + xS;
-            float y2 = y + yS;
+            double x2 = x + xS;
+            double y2 = y + yS;
 
-            if (x2 > axis-r || x < 0)
+            if (x2 > axis-10 || x2 < 0)
             {
                 xS = -xS;
             }
-            if(y2 > axis-r || y < 0)
+            if(y2 > axis-10 || y2 < 0)
             {
                 yS = -yS;
             }
+
+            x = x2;
+            y = y2;
         }
     }
 }
