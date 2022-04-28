@@ -130,51 +130,5 @@ namespace ViewModel
                 RaisePropertyChanged(nameof(ErrorMessage));
             }
         }
-
-        /* public List<BallModel> Balls
-         {
-             get => _modelAbstractApi.GetBalls();
-
-         }
-
-         public uint WindowWidth
-         {
-             get => _modelAbstractApi.WindowWidth;
-             set => _modelAbstractApi.WindowWidth = value;
-         }
-
-         public uint WindowHeight
-         {
-             get => _modelAbstractApi.WindowHeight;
-             set => _modelAbstractApi.WindowHeight = value;
-         }
-
-         public bool StartClicked
-         {
-             get { return _modelAbstractApi.BeginSimulationClicked; }
-             set { _modelAbstractApi.BeginSimulationClicked = value; }
-         }
-
-         public string BallsNumber
-         {
-             get { return _modelAbstractApi.BallsNumber; }
-             set { _modelAbstractApi.BallsNumber = value; }
-         }
-
-         private void Execute(object value)
-         {
-             uint ballsNumber;
-             if(uint.TryParse(BallsNumber, out ballsNumber))
-             {
-                 StartClicked = true;
-                 _modelAbstractApi.CreateBalls(ballsNumber);
-             }
-         }
-
-         private bool CanExecute(object value)
-         {
-             return !StartClicked;
-         }*/
-
     }
 }
