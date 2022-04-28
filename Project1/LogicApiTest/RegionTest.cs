@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using Logic;
 
-namespace LogicApiTest
+namespace LogicTest
 {
     internal class RegionTest
     {
