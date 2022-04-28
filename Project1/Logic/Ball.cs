@@ -18,8 +18,8 @@ namespace Logic
 
         public Ball()
         {         
-            x = generateRandomDouble(1, 500);
-            y = generateRandomDouble(1, 500);
+            x = generateRandomDouble(21, 479);
+            y = generateRandomDouble(21, 479);
 
             xS = generateRandomDouble(1, 3);
             yS = generateRandomDouble(1, 3);
