@@ -18,6 +18,8 @@ namespace Logic
 
             xS = rng.Next(1, 5);
             yS = rng.Next(1, 5);
+
+            r = 10;
         }
 
         public void updatePosition(int axis)
@@ -25,11 +27,11 @@ namespace Logic
             float x2 = x + xS;
             float y2 = y + yS;
 
-            if (x2 > axis || x < 0)
+            if (x2 > axis-r || x < 0)
             {
                 xS = -xS;
             }
-            if(y2 > axis || y < 0)
+            if(y2 > axis-r || y < 0)
             {
                 yS = -yS;
             }
