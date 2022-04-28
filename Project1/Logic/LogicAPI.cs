@@ -1,55 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data;
+using System.Threading.Tasks;
 
 namespace Logic
 {
     public abstract class LogicAbstractApi
     {
-        public abstract uint screen_width { get;  }
-        public abstract uint screen_height { get; }
         public abstract void createBalls(uint count);
-        public abstract List<BallAbstract> GetBalls();
+        public abstract List<Ball> GetBalls();
 
-        public static LogicAbstractApi CreateApi(uint width, uint height)
+        public abstract void start();
+        public static LogicAbstractApi CreateApi(DataAbstractAPI data = default(DataAbstractAPI))
         {
-            return new LogicApi(width, height);
+            return new LogicApi(data == null ? DataAbstractAPI.CreateAPI() : data);
         }
 
     }
 
     internal class LogicApi : LogicAbstractApi
     {
-        public override uint screen_width { get; }
+        
+        private DataAbstractAPI _dataAPI;
+        private Task _changePosition;
+        private Region _region;
 
-        public override uint screen_height { get; }
-        private List<BallAbstract> balls;
-
-
-        public LogicApi(uint width, uint height)
+        public LogicApi(DataAbstractAPI dataAPI)
         {
-            screen_width = width;
-            screen_height = height;
-            balls = new List<BallAbstract>();
+            _dataAPI = dataAPI;
+            _region = new Region(500);
         }
 
         public override void createBalls(uint count)
         {
-            Random random = new Random();
-            for (uint i = 0; i < count; i++)
-            {
-                float random_xPosition = random.Next(0, (int)screen_width - 10);
-                float random_yPosition = random.Next(0, (int)screen_height - 10);
-
-                float random_xSpeed = random.Next(10);
-                float random_ySpeed = random.Next(10);
-
-                balls.Add(new Ball(random_xPosition, random_yPosition, random_xSpeed, random_ySpeed, 10));
-            }
+            _region.addBalls(count);         
         }
 
-        public override List<BallAbstract> GetBalls()
+        public override List<Ball> GetBalls()
         {
-            return balls;
+            return _region.balls;
+        }
+
+        public override void start()
+        {
+            if (_region.balls.Count > 0)
+            {
+                _changePosition = Task.Run(_region.MoveBalls);
+            }
         }
     }
 }

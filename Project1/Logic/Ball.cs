@@ -4,11 +4,11 @@ namespace Logic
 {
     public class Ball 
     {
-        private float x { get; set; }
-        private float y { get; set; }
-        private float xS { get; set; }
-        private float yS { get; set; }
-        private float r { get; set; }
+        public float x { get; set; }
+        public float y { get; set; }
+        public float xS { get; set; }
+        public float yS { get; set; }
+        public float r { get; set; }
 
         public Ball()
         {

@@ -10,7 +10,7 @@ namespace Logic
     {
         public int size { get; set; }
 
-        public List<Ball> _balls { get; set; }
+        public List<Ball> balls { get; set; }
         private Task changePosition;
         private int time = 30;
 
@@ -25,14 +25,14 @@ namespace Logic
             changePosition = new Task(MoveBalls);
             changePosition.Start();
         }
-        public void addBalls(int BallsNumber)
+        public void addBalls(uint BallsNumber)
         {
             throw new NotImplementedException();
         }
 
         public void MoveBall()
         {
-            foreach (Ball ball in _balls)
+            foreach (Ball ball in balls)
             {
                 ball.updatePosition(size);
             }
