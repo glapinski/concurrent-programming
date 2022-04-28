@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Logic;
 
-namespace Presentation.Model
+namespace Model
 {
     public abstract class ModelAbstractApi
     {
