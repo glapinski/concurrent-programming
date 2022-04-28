@@ -16,6 +16,6 @@
                     Padding="30" Grid.Column="1" Command="{Binding StartButtonClicked}"/>
         <TextBlock Grid.Column="1" Padding="10" Margin="65,120,35,-20"><Run Language="pl-pl" Text="Ilosc kulek"/><LineBreak/><Run Language="pl-pl"/></TextBlock>
         <TextBox Name="BallsCount" Text="" Grid.Column="1" Margin="76,149,71,261"/>
-        
+
     </Grid>
 </Window>
