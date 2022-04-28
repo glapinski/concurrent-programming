@@ -77,7 +77,7 @@ namespace ViewModel
                 NotActive = !NotActive;
                 return result;
             }
-            ErrorMessage = "Wrong number";
+            ErrorMessage = "Zła liczba!";
             return 0;
         }
 
