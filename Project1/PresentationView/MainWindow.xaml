@@ -17,9 +17,10 @@
                     <RowDefinition Height="29*"/>
                     <RowDefinition Height="39*"/>
                 </Grid.RowDefinitions>
-                <Button x:Name="startButton" Content="Dodaj kulki" FontSize="25" Margin="-170,118,850,177" IsEnabled="{Binding Active}" Command="{Binding StartButtonClicked}" />
-                <Label Height="50" FontSize="25" Foreground="LightGray" Margin="-170,49,850,454" Content="{Binding ErrorMessage}" Grid.Row="1"/>
+                <Button x:Name="startButton" Content="Dodaj kulki" FontSize="25" Margin="-170,243,850,272" IsEnabled="{Binding Active}" Command="{Binding StartButtonClicked}" Grid.Row="1" />
+                <Label Height="50" FontSize="25" Foreground="Black" Margin="-170,49,850,454" Content="{Binding ErrorMessage}" Grid.Row="1"/>
                 <TextBox IsEnabled="{Binding Active}" Name="intputText" Text="{Binding InputText}" FontSize="30" TextAlignment="Center" Height="50"  Width="240" BorderBrush="Gray"  BorderThickness="2" Margin="-170,318,850,535" Grid.RowSpan="2"/>
+                <TextBlock Text="Wpisz ilosc kulek" VerticalAlignment="Top" Margin="-170,80,170,0" Grid.Row="1" Height="63" FontSize="30"/>
 
                 <Grid x:Name="board" Width="500" Height="500" Margin="90,40,160,257" Grid.RowSpan="2" >
 
