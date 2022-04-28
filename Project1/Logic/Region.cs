@@ -18,6 +18,7 @@ namespace Logic
         public Region(int size)
         {
             this.size = size;
+            balls = new List<Ball>();
         }
 
         public void Execute()
@@ -27,7 +28,6 @@ namespace Logic
         }
         public void addBalls(int BallsNumber)
         {
-            balls = new List<Ball>();
             for(int i = 0;i<BallsNumber ;i++)
             {
                 balls.Add(new Ball());
