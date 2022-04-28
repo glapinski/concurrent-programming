@@ -9,7 +9,7 @@ namespace LogicApiTest
         [SetUp]
         public void Setup()
         {
-            testApi = LogicAbstractApi.CreateApi(500, 500);
+            testApi = LogicAbstractApi.CreateApi();
         }
 
         [Test]

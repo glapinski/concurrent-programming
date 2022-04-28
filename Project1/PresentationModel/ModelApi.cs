@@ -6,37 +6,41 @@ namespace Model
 {
     public abstract class ModelAbstractApi
     {
-        protected abstract LogicAbstractApi Logic { get; }
-        public abstract List<BallAbstract> GetBalls();
+        public abstract List<BallModel> balls { get; }
         public abstract void CreateBalls(uint count);
-        public abstract uint WindowWidth { get; set; }
-        public abstract uint WindowHeight { get; set; }
-        public abstract string BallsNumber { get; set; }
-        public abstract bool BeginSimulationClicked { get; set; }
-        public static ModelAbstractApi CreateApi(uint width, uint height)
+        public static ModelAbstractApi CreateApi()
         {
-            return new ModelApi(width, height);
+            return new ModelApi();
         }
     }
 
     internal class ModelApi : ModelAbstractApi
     {
-        private List<BallAbstract> _balls;
-        private LogicAbstractApi _logic;
-        private uint _windowWidth;
-        private uint _windowHeight;
-        private string _ballsNumber;
-        private bool _beginSimulationClicked;
-        public override uint WindowWidth 
-        { 
-            get => _windowWidth;
-            set => _windowWidth = value;
+        public override List<BallModel> balls => ChangeBall();
+        private LogicAbstractApi _logicApi;
+        
+        public ModelApi()
+        {
+            _logicApi = _logicApi ?? LogicAbstractApi.CreateApi();
         }
-        public override uint WindowHeight 
-        { 
-            get => _windowHeight;
-            set => _windowHeight = value;
+        public List<BallModel> ChangeBall()
+        {
+            List<BallModel> ballModels = new List<BallModel>();
+
+            foreach (Ball b in _logicApi.GetBalls())
+            {
+                ballModels.Add(new BallModel(b));
+            }
+            return ballModels;
         }
+
+        public override void CreateBalls(uint count)
+        {
+            _logicApi.createBalls(count);
+            _logicApi.start();
+        }
+
+/*
         public override string BallsNumber 
         { 
             get => _ballsNumber; 
@@ -58,7 +62,7 @@ namespace Model
             throw new NotImplementedException();
         }
 
-        public override List<BallAbstract> GetBalls()
+        public override List<BallModel> GetBalls()
         {
             return _balls;
         }
@@ -70,7 +74,7 @@ namespace Model
             BeginSimulationClicked = false;
 
             _logic = LogicAbstractApi.CreateApi(width, height);
-            _balls = new List<BallAbstract>();
-        }
+            _balls = new List<BallModel>();
+        } */
     }
 }

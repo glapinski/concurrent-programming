@@ -24,7 +24,7 @@ namespace Presentation.ViewModel
 
         public ICommand StartButtonClicked { get; set; }
 
-        public List<BallAbstract> Balls
+        public List<BallModel> Balls
         {
             get => _modelAbstractApi.GetBalls();
 
