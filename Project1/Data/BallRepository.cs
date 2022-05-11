@@ -17,7 +17,7 @@ namespace Data
         {
             for (int i = 0; i < ballsAmount; i++)
             {
-                balls.Add(new Ball(i + 1));
+                balls.Add(new Ball(i));
             }
         }
 
@@ -36,6 +36,10 @@ namespace Data
                 return balls[ballId];
             }
             return null;
+        }
+        public List<Ball> getBallList()
+        {
+            return balls;
         }
     }
 }

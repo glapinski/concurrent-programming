@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace DataApiTest
+namespace DataTest
 {
     internal class DataApiTest
     {
