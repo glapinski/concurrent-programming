@@ -40,7 +40,7 @@ namespace ViewModel
         
         private void StartButtonClickHandler()
         {
-            _modelApi.CreateBalls(readFromBox());
+            _modelApi.createBallsAndStart(readFromBox());
             _task = new Task(ChangePosition);
             _task.Start();
         }

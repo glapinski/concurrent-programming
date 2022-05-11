@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -43,7 +44,7 @@ namespace Data
         {
             while(true)
             {
-                double x2 = x + xS;
+                /*double x2 = x + xS;
                 double y2 = y + yS;
 
                 if (x2 > regionSize-10 || x2 < 0)
@@ -56,21 +57,48 @@ namespace Data
                 }
 
                 x = x2;
-                y = y2;
+                y = y2;*/
+
+
+                double newX = x + xS;
+                double newY = y + yS;
+
+                if (newX > regionSize || newX < 0)
+                {
+                    xS = -xS;
+                }
+
+                if (newY > regionSize || newY < 0)
+                {
+                   yS = -yS;
+                }
+
+                x += xS;
+                y += yS;
 
                 //Inform observers when position change
                 //double[] position = { PositionX, PositionY };
                 //Point position = new Point(PositionX, PositionY);
+                int threadId = Thread.CurrentThread.ManagedThreadId;
 
-                foreach (var observer in observers)
+                //if (observers != null)
+                //{
+                foreach (var observer in observers.ToList())
                 {
                     //if (position is null) 
                     //observer.OnError(new NullReferenceException("Position is incorrect"));
                     //else
-                    observer.OnNext(id);
-                }
+                    if (observer != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Ball: " + id + " moved on thread: " + threadId);
+                        observer.OnNext(id);
+                    }
 
-                Thread.Sleep(10);
+                }
+                //}
+
+
+                System.Threading.Thread.Sleep(1);
             }
         }
 

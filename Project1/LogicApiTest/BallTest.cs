@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿/*using NUnit.Framework;
 using Logic;
 
 namespace LogicTest
@@ -22,4 +22,4 @@ namespace LogicTest
             Assert.AreEqual(ball.y, positionY + ball.yS);
         }
     }
-}
+}*/

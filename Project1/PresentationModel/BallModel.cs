@@ -7,21 +7,13 @@ namespace Model
 {
     public class BallModel
     {
-        private Ball ball;
-        
-        public BallModel(Ball ball)
-        {
-            this.ball = ball;
-        }
+        public double X { get; set; }
+        public double Y { get; set; }
 
-        public double X
+        public BallModel(double X, double Y)
         {
-            get { return ball.x; }
-        }
-
-        public double Y
-        {
-            get { return ball.y; }
+            this.X = X;
+            this.Y = Y;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Data
 {
@@ -7,7 +8,7 @@ namespace Data
     {
         public abstract double getBallPositionX(int ballId);
         public abstract double getBallPositionY(int ballId);
-        public abstract double getBallRadious(int ballId);
+        public abstract double getBallRadius(int ballId);
         public abstract double getBallXSpeed(int ballId);
         public abstract double getBallYSpeed(int ballId);
         public abstract void setBallXSpeed(int ballId, double xSpeed);
@@ -29,6 +30,7 @@ namespace Data
         private IDisposable unsubscriber;
 
         private IList<IObserver<int>> observers;
+        static object _lock = new object();
         public DataAPI()
         {
             this.ballRepository = new BallRepository();
@@ -54,7 +56,7 @@ namespace Data
             return this.ballRepository.getBall(ballId).y;
         }
 
-        public override double getBallRadious(int ballId)
+        public override double getBallRadius(int ballId)
         {
             return this.ballRepository.getBall(ballId).r;
         }
@@ -94,11 +96,40 @@ namespace Data
             throw new NotImplementedException();
         }
 
-        public override void OnNext(int value)
+        public override void OnNext(int ballId)
         {
-            foreach (var observer in observers)
+            Monitor.Enter(_lock);
+            try
             {
-                observer.OnNext(value);
+                int threadId = Thread.CurrentThread.ManagedThreadId;
+                System.Diagnostics.Debug.WriteLine("Observer: Ball: " + ballId + " moved on thread: " + threadId);
+
+                foreach (var observer in observers)
+                {
+                    observer.OnNext(ballId);
+                }
+                // Critical piece of code
+
+                /*     int threadId = Thread.CurrentThread.ManagedThreadId;
+                     Console.WriteLine($" Thread: {threadId} Entered into the critical section ");
+                     for (int num = 1; num <= 3; num++)
+                     {
+                         Console.WriteLine($" num: {num}");
+                         //Pausing the thread execution for 2 seconds
+                         //Thread.Sleep(TimeSpan.FromSeconds(2));
+                     }*/
+            }
+
+            catch (SynchronizationLockException exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+
+            finally
+            {
+                // Releasing object
+                Monitor.Exit(_lock);
+                //Console.WriteLine($"Thread : {Thread.CurrentThread.ManagedThreadId} Released");
             }
 
         }

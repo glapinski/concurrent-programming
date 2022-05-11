@@ -5,11 +5,17 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    public abstract class LogicAbstractApi
+    public abstract class LogicAbstractApi : IObserver<int>
     {
-        public abstract void createBalls(int count);
-        public abstract List<Ball> GetBalls();
+        public abstract void createBalls(int numberOfBalls);
         public abstract void start();
+        public abstract double getBallX(int ballId);
+        public abstract double getBallY(int ballId);
+        public abstract double getBallRadius(int ballId);
+
+        public abstract void OnCompleted();
+        public abstract void OnError(Exception error);
+        public abstract void OnNext(int value);
         public static LogicAbstractApi CreateApi(DataAbstractAPI data = default(DataAbstractAPI))
         {
             return new LogicApi(data == null ? DataAbstractAPI.CreateAPI() : data);
@@ -19,33 +25,105 @@ namespace Logic
 
     internal class LogicApi : LogicAbstractApi
     {
-        
-        private DataAbstractAPI _dataAPI;
-        private Task _changePosition;
-        private Region _region;
-
+        private readonly DataAbstractAPI dataAPI;
+        private IDisposable unsubscriber;
+        static object _lock = new object();
+        //private CollisionControler collisionControler;
         public LogicApi(DataAbstractAPI dataAPI)
         {
-            _dataAPI = dataAPI;
-            _region = new Region(500);
+            this.dataAPI = dataAPI;
+            Subscribe(dataAPI);
+        }
+        public override double getBallX(int ballId)
+        {
+            return this.dataAPI.getBallPositionX(ballId);
         }
 
-        public override void createBalls(int count)
+        public override double getBallY(int ballId)
         {
-            _region.addBalls(count);         
+            return this.dataAPI.getBallPositionY(ballId);
         }
 
-        public override List<Ball> GetBalls()
+        public override double getBallRadius(int ballId)
         {
-            return _region.balls;
+            return this.dataAPI.getBallRadius(ballId);
+        }
+
+        public override void createBalls(int numberOfBalls)
+        {
+            dataAPI.createBalls(numberOfBalls);        
         }
 
         public override void start()
         {
-            if (_region.balls.Count > 0)
-            {
-                _changePosition = Task.Run(_region.MoveBalls);
-            }
+            dataAPI.createBalls(20);
         }
+
+        #region observer
+
+        public virtual void Subscribe(IObservable<int> provider)
+        {
+            if (provider != null)
+                unsubscriber = provider.Subscribe(this);
+        }
+
+        public override void OnCompleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnError(Exception error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnNext(int value)
+        {
+            /*       Monitor.Enter(_lock);
+              try
+              {
+                  new System.Threading.Thread(() =>
+                  {*/
+            System.Diagnostics.Debug.WriteLine("Collision check: Ball: " + value);
+
+            for (int i = 1; i <= 20; i++)
+            {
+                if (value != i)
+                {
+                    if (Collision.IsCollision(dataAPI.getBallPositionX(value), dataAPI.getBallPositionY(value), dataAPI.getBallPositionX(i), dataAPI.getBallPositionY(i), dataAPI.getBallRadius(value), dataAPI.getBallRadius(i)))
+                    {
+                        //double temp = dataAPI.getBallSpeed(value);
+                        //dataAPI.setBallSpeed(value, -dataAPI.getBallSpeed(i));
+                        //dataAPI.setBallSpeed(i, -temp);
+                        dataAPI.setBallXSpeed(value, -dataAPI.getBallXSpeed(i));
+                        dataAPI.setBallYSpeed(value, -dataAPI.getBallYSpeed(i));
+                        dataAPI.setBallXSpeed(i, -dataAPI.getBallXSpeed(value));
+                        dataAPI.setBallYSpeed(i, -dataAPI.getBallYSpeed(value));
+                    }
+                }
+            }
+            /*       }).Start();
+               }
+               catch (SynchronizationLockException exception)
+               {
+                   Console.WriteLine(exception.Message);
+               }
+               finally
+               {
+                   // Releasing object
+                   Monitor.Exit(_lock);
+                   //Console.WriteLine($"Thread : {Thread.CurrentThread.ManagedThreadId} Released");
+               }*/
+
+
+
+        }
+
+        public virtual void Unsubscribe()
+        {
+            unsubscriber.Dispose();
+        }
+
+        #endregion
     }
 }
