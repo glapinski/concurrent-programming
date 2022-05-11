@@ -24,8 +24,8 @@ namespace DataTest
             Assert.IsEmpty(testBallRepository.getBallList());
             testBallRepository.CreateBalls(2);
             Assert.IsNotEmpty(testBallRepository.getBallList());
-            Assert.IsNotNull(testBallRepository.getBall(0));
             Assert.IsNotNull(testBallRepository.getBall(1));
+            Assert.IsNotNull(testBallRepository.getBall(2));
         }
     }
 }

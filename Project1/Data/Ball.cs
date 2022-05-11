@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Data
 {
-    internal class Ball
+    internal class Ball : IObservable<int>
     {
         public int id { get; }
         public double x { get; set; }
@@ -15,7 +15,8 @@ namespace Data
         public double r { get; set; }
         public double m { get; }
         private Thread ballUpdater;
-        public int regionSize { get; set; } = 100;
+        internal readonly IList<IObserver<int>> observers;
+        public int regionSize { get; set; } = 479;
 
         Random rng = new Random();
         public double generateRandomDouble(double min, double max)
@@ -26,17 +27,19 @@ namespace Data
         public Ball(int id)
         {
             this.id = id;
-            x = generateRandomDouble(21, 479);
-            y = generateRandomDouble(21, 479);
+            x = generateRandomDouble(21, this.regionSize);
+            y = generateRandomDouble(21, this.regionSize);
 
             xS = generateRandomDouble(1, 3);
             yS = generateRandomDouble(1, 3);
 
             r = 10;
             m = 10;
+
+            observers = new List<IObserver<int>>();
         }
 
-        private void MoveBall()
+        public void MoveBall()
         {
             while(true)
             {
@@ -54,29 +57,69 @@ namespace Data
 
                 x = x2;
                 y = y2;
+
+                //Inform observers when position change
+                //double[] position = { PositionX, PositionY };
+                //Point position = new Point(PositionX, PositionY);
+
+                foreach (var observer in observers)
+                {
+                    //if (position is null) 
+                    //observer.OnError(new NullReferenceException("Position is incorrect"));
+                    //else
+                    observer.OnNext(id);
+                }
+
+                Thread.Sleep(10);
             }
-        }
-
-        public bool Collision(Ball ball)
-        {
-            double distance = Math.Sqrt(Math.Pow(this.x - ball.x, 2) + Math.Pow(this.y - ball.y, 2));
-
-            if (distance <= this.r + ball.r)
-            {
-                xS = ball.xS;
-                yS = ball.yS;
-                ball.x = xS;
-                ball.y = yS;
-                return true;
-            }
-
-            return false;
         }
 
         public void StartMove()
         {
             this.ballUpdater = new Thread(this.MoveBall);
             ballUpdater.Start();
+        }
+
+        #region provider
+
+        public IDisposable Subscribe(IObserver<int> observer)
+        {
+            if (!observers.Contains(observer))
+                observers.Add(observer);
+            return new Unsubscriber(observers, observer);
+        }
+
+        private class Unsubscriber : IDisposable
+        {
+            private IList<IObserver<int>> _observers;
+            private IObserver<int> _observer;
+
+            public Unsubscriber
+            (IList<IObserver<int>> observers, IObserver<int> observer)
+            {
+                _observers = observers;
+                _observer = observer;
+            }
+
+            public void Dispose()
+            {
+                if (_observer != null && _observers.Contains(_observer))
+                    _observers.Remove(_observer);
+            }
+        }
+
+        #endregion
+    }
+
+    public struct Point
+    {
+        public double X;
+        public double Y;
+
+        public Point(double X, double Y)
+        {
+            this.X = X;
+            this.Y = Y;
         }
     }
 }

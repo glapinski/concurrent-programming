@@ -6,7 +6,7 @@ namespace Data
 {
     internal class BallRepository
     {
-        private List<Ball> balls;
+        public List<Ball> balls { get; set; }
 
         public BallRepository()
         {
@@ -17,23 +17,15 @@ namespace Data
         {
             for (int i = 0; i < ballsAmount; i++)
             {
-                balls.Add(new Ball(i));
+                balls.Add(new Ball(i + 1));
             }
         }
 
         public Ball getBall(int ballId)
         {
-            /*foreach (Ball ball in balls)
+            if (balls[ballId - 1] != null)
             {
-                if (ball.id == ballId)
-                {
-                    return ball;
-                }
-            }
-            return null;*/
-            if (balls[ballId] != null)
-            {
-                return balls[ballId];
+                return balls[ballId - 1];
             }
             return null;
         }
