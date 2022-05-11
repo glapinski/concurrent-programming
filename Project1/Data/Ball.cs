@@ -1,14 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
 
-namespace Logic
+namespace Data
 {
-    public class Ball 
+    internal class Ball
     {
+        public int id { get; }
         public double x { get; set; }
         public double y { get; set; }
         public double xS { get; set; }
         public double yS { get; set; }
         public double r { get; set; }
+        public double m { get; }
+        private Thread positionUpdater;
+        public int regionSize { get; set; } = 100;
 
         Random rng = new Random();
         public double generateRandomDouble(double min, double max)
@@ -16,8 +23,9 @@ namespace Logic
             return rng.NextDouble() * (max - min) + min;
         }
 
-        public Ball()
-        {         
+        public Ball(int id)
+        {
+            this.id = id;
             x = generateRandomDouble(21, 479);
             y = generateRandomDouble(21, 479);
 
@@ -25,6 +33,7 @@ namespace Logic
             yS = generateRandomDouble(1, 3);
 
             r = 10;
+            m = 10;
         }
 
         public bool isCollision(Ball ball)
@@ -43,6 +52,14 @@ namespace Logic
             return false;
         }
 
+        private void MoveBall()
+        {
+            while(true)
+            {
+                updatePosition(regionSize);
+            }
+        }
+
         public void updatePosition(int axis)
         {
             double x2 = x + xS;
@@ -52,13 +69,19 @@ namespace Logic
             {
                 xS = -xS;
             }
-            if(y2 > axis-10 || y2 < 0)
+            if (y2 > axis-10 || y2 < 0)
             {
                 yS = -yS;
             }
 
             x = x2;
             y = y2;
+        }
+
+        public void StartMove()
+        {
+            this.positionUpdater = new Thread(this.MoveBall);
+            positionUpdater.Start();
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    public class Region
+    internal class Region
     {
         public int size { get; set; }
 
-        public List<Ball> balls { get; set; }
+        public List<Ball> balls { get; private set; }
         private Task changePosition;
         private int time = 30;
 

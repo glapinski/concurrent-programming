@@ -9,7 +9,6 @@ namespace Logic
     {
         public abstract void createBalls(int count);
         public abstract List<Ball> GetBalls();
-
         public abstract void start();
         public static LogicAbstractApi CreateApi(DataAbstractAPI data = default(DataAbstractAPI))
         {
