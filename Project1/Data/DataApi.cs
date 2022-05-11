@@ -9,8 +9,6 @@ namespace Data
         public abstract double getBallRadious(int ballId);
         public abstract double getBallXSpeed(int ballId);
         public abstract double getBallYSpeed(int ballId);
-        public abstract void setBallXSpeed(int ballId, double newXSpeed);
-        public abstract void setBallYSpeed(int ballId, double newYSpeed);
         public abstract void createBalls(int ballsAmount);
         public static DataAbstractAPI CreateAPI()
         { 
@@ -51,16 +49,6 @@ namespace Data
         public override double getBallYSpeed(int ballId)
         {
             return this.ballRepository.getBall(ballId).yS;
-        }
-
-        public override void setBallXSpeed(int ballId, double newXSpeed)
-        {
-            this.ballRepository.getBall(ballId).xS = newXSpeed;
-        }
-
-        public override void setBallYSpeed(int ballId, double newYSpeed)
-        {
-            this.ballRepository.getBall(ballId).yS = newYSpeed;
         }
     }
 }
