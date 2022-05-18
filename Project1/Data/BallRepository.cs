@@ -8,6 +8,8 @@ namespace Data
     {
         public List<Ball> balls { get; set; }
 
+        public int BoardSize { get; private set; } = 515;
+
         public BallRepository()
         {
             balls = new List<Ball>();
@@ -29,9 +31,9 @@ namespace Data
             }
             return null;
         }
-        public List<Ball> getBallList()
+        /*public List<Ball> getBallList()
         {
             return balls;
-        }
+        }*/
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Data
 {
@@ -13,9 +14,9 @@ namespace Data
         public double y { get; set; }
         public double xS { get; set; }
         public double yS { get; set; }
-        public double r { get; set; }
-        public double m { get; }
-        private Thread ballUpdater;
+        public int r { get; } = 10;
+        public double m { get; } = 10;
+        private Task BallUpdater;
         internal readonly IList<IObserver<int>> observers;
         public int regionSize { get; set; } = 479;
 
@@ -28,16 +29,15 @@ namespace Data
         public Ball(int id)
         {
             this.id = id;
-            x = generateRandomDouble(21, this.regionSize);
-            y = generateRandomDouble(21, this.regionSize);
 
-            xS = generateRandomDouble(1, 3);
-            yS = generateRandomDouble(1, 3);
-
-            r = 10;
-            m = 10;
-
+            Random rng = new Random();
             observers = new List<IObserver<int>>();
+
+            this.x = Convert.ToDouble(rng.Next(1, 500));
+            this.y = Convert.ToDouble(rng.Next(1, 500));
+
+            this.xS = rng.NextDouble() * (5 - 2) + 2;
+            this.yS = rng.NextDouble() * (5 - 2) + 2;
         }
 
         public void MoveBall()
@@ -58,9 +58,18 @@ namespace Data
 
                 x = x2;
                 y = y2;*/
+                ChangeBallPosition();
 
+                foreach(var observer in observers.ToList())
+                {
+                    if (observer != null)
+                    {
+                        observer.OnNext(id);
+                    }
+                }
+                System.Threading.Thread.Sleep(1);
 
-                double newX = x + xS;
+                 /*double newX = x + xS;
                 double newY = y + yS;
 
                 if (newX > regionSize || newX < 0)
@@ -98,14 +107,20 @@ namespace Data
                 //}
 
 
-                System.Threading.Thread.Sleep(1);
+                System.Threading.Thread.Sleep(1);*/
             }
         }
 
         public void StartMove()
         {
-            this.ballUpdater = new Thread(this.MoveBall);
-            ballUpdater.Start();
+            this.BallUpdater = new Task(MoveBall);
+            BallUpdater.Start();
+        }
+
+        public void ChangeBallPosition()
+        {
+            x += xS;
+            y += yS;
         }
 
         #region provider
@@ -139,7 +154,7 @@ namespace Data
         #endregion
     }
 
-    public struct Point
+    /*public struct Point
     {
         public double X;
         public double Y;
@@ -149,5 +164,5 @@ namespace Data
             this.X = X;
             this.Y = Y;
         }
-    }
+    }*/
 }
