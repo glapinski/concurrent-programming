@@ -31,9 +31,9 @@ namespace Data
             }
             return null;
         }
-        /*public List<Ball> getBallList()
+        public List<Ball> getBallList()
         {
             return balls;
-        }*/
+        }
     }
 }

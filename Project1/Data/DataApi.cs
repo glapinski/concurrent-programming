@@ -19,6 +19,7 @@ namespace Data
         public abstract void OnError(Exception error);
         public abstract void OnNext(int value);
 
+        public abstract int getBallsAmount();
         public abstract int getBoardSize();
 
         public abstract IDisposable Subscribe(IObserver<int> observer);
@@ -55,6 +56,11 @@ namespace Data
         public override double getBallPositionX(int ballId)
         {
             return this.ballRepository.getBall(ballId).x;
+        }
+
+        public override int getBallsAmount()
+        {
+            return ballRepository.balls.Count;
         }
 
         public override double getBallPositionY(int ballId)

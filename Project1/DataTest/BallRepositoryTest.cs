@@ -18,6 +18,16 @@ namespace DataTest
         }
 
         [Test]
+        public void createBallsTest()
+        {
+            testBallRepository.CreateBalls(2);
+
+            Assert.AreEqual(testBallRepository.balls.Count, 2);
+            Assert.AreEqual(testBallRepository.balls[0].id, 1);
+            Assert.AreEqual(testBallRepository.balls[1].id, 2);
+        }
+
+        [Test]
         public void createRepoTest()
         {
             Assert.IsNotNull(testBallRepository);
