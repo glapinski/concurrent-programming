@@ -9,14 +9,17 @@ namespace Data
         public abstract double getBallPositionX(int ballId);
         public abstract double getBallPositionY(int ballId);
         public abstract double getBallRadius(int ballId);
+
+        public abstract double getBallMass(int ballId);
         public abstract double getBallXSpeed(int ballId);
         public abstract double getBallYSpeed(int ballId);
-        public abstract void setBallXSpeed(int ballId, double xSpeed);
-        public abstract void setBallYSpeed(int ballId, double ySpeed);
+        public abstract void setBallSpeed(int ballId, double xSpeed, double ySpeed);
         public abstract void createBalls(int ballsAmount);
         public abstract void OnCompleted();
         public abstract void OnError(Exception error);
         public abstract void OnNext(int value);
+
+        public abstract int getBoardSize();
 
         public abstract IDisposable Subscribe(IObserver<int> observer);
         public static DataAbstractAPI CreateAPI()
@@ -31,6 +34,7 @@ namespace Data
 
         private IList<IObserver<int>> observers;
         static object _lock = new object();
+        private Barrier barrier;
         public DataAPI()
         {
             this.ballRepository = new BallRepository();
@@ -38,11 +42,13 @@ namespace Data
         }
         public override void createBalls(int ballsAmount)
         {
+            barrier = new Barrier(ballsAmount);
             ballRepository.CreateBalls(ballsAmount);
 
             foreach (var ball in ballRepository.balls)
             {
                 Subscribe(ball);
+                ball.StartMove();
             }
         }
 
@@ -69,13 +75,20 @@ namespace Data
         {
             return this.ballRepository.getBall(ballId).yS;
         }
-        public override void setBallXSpeed(int ballId, double xSpeed)
+        public override void setBallSpeed(int ballId, double xSpeed, double ySpeed)
         {
             this.ballRepository.getBall(ballId).xS = xSpeed;
-        }
-        public override void setBallYSpeed(int ballId, double ySpeed)
-        {
             this.ballRepository.getBall(ballId).yS = ySpeed;
+        }
+
+        public override int getBoardSize()
+        {
+            return ballRepository.BoardSize;
+        }
+
+        public override double getBallMass(int ballId)
+        {
+            return this.ballRepository.getBall(ballId).m;
         }
 
         #region observer
