@@ -8,11 +8,11 @@ namespace Data
     {
         public abstract double getBallPositionX(int ballId);
         public abstract double getBallPositionY(int ballId);
-        public abstract double getBallRadius(int ballId);
+        public abstract int getBallRadius(int ballId);
 
         public abstract double getBallMass(int ballId);
-        public abstract double getBallXSpeed(int ballId);
-        public abstract double getBallYSpeed(int ballId);
+        public abstract double getBallSpeedX(int ballId);
+        public abstract double getBallSpeedY(int ballId);
         public abstract void setBallSpeed(int ballId, double xSpeed, double ySpeed);
         public abstract void createBalls(int ballsAmount);
         public abstract void OnCompleted();
@@ -68,16 +68,16 @@ namespace Data
             return this.ballRepository.getBall(ballId).y;
         }
 
-        public override double getBallRadius(int ballId)
+        public override int getBallRadius(int ballId)
         {
             return this.ballRepository.getBall(ballId).r;
         }
 
-        public override double getBallXSpeed(int ballId)
+        public override double getBallSpeedX(int ballId)
         {
             return this.ballRepository.getBall(ballId).xS;
         }
-        public override double getBallYSpeed(int ballId)
+        public override double getBallSpeedY(int ballId)
         {
             return this.ballRepository.getBall(ballId).yS;
         }
