@@ -83,15 +83,12 @@ namespace Logic
             double tx = -ny;
             double ty = nx;
 
-            // Dot Product Tangent
             double dpTan1 = velocity.X * tx + velocity.Y * ty;
             double dpTan2 = velocityOther.X * tx + velocityOther.Y * ty;
 
-            // Dot Product Normal
             double dpNorm1 = velocity.X * nx + velocity.Y * ny;
             double dpNorm2 = velocityOther.X * nx + velocityOther.Y * ny;
 
-            // Conservation of momentum in 1D
             double m1 = (dpNorm1 * (mass - otherMass) + 2.0f * otherMass * dpNorm2) / (mass + otherMass);
             double m2 = (dpNorm2 * (otherMass - mass) + 2.0f * mass * dpNorm1) / (mass + otherMass);
 
