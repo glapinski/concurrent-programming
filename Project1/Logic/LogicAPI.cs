@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Text;
+using System.Threading;
 using Data;
-using System.Threading.Tasks;
 
 namespace Logic
 {
-    public abstract class LogicAbstractApi : IObserver<int>
+    public abstract class LogicAbstractApi : IObserver<int>, IObservable<int>
     {
-        public abstract void createBalls(int numberOfBalls);
-        public abstract void start();
+        public abstract void createBallsAndStart(int numberOfBalls);
         public abstract double getBallX(int ballId);
         public abstract double getBallY(int ballId);
         public abstract double getBallRadius(int ballId);
@@ -16,21 +19,29 @@ namespace Logic
         public abstract void OnCompleted();
         public abstract void OnError(Exception error);
         public abstract void OnNext(int value);
+        
+        public abstract IDisposable Subscribe(IObserver<int> observer);
         public static LogicAbstractApi CreateApi(DataAbstractAPI data = default(DataAbstractAPI))
         {
             return new LogicApi(data == null ? DataAbstractAPI.CreateAPI() : data);
         }
 
+        public class BallChangeEventArgs : EventArgs
+        {
+            public int ballId { get; set; }
+        }
     }
 
-    internal class LogicApi : LogicAbstractApi
+    internal class LogicApi : LogicAbstractApi, IObservable<int>
     {
         private readonly DataAbstractAPI dataAPI;
         private IDisposable unsubscriber;
         static object _lock = new object();
-        //private CollisionControler collisionControler;
+        private IObservable<EventPattern<BallChangeEventArgs>> eventObservable = null;
+        public event EventHandler<BallChangeEventArgs> BallChanged;
         public LogicApi(DataAbstractAPI dataAPI)
         {
+            eventObservable = eventObservable.FromEventPattern<BallChangeEventArgs>(this, "BallChanged");
             this.dataAPI = dataAPI;
             Subscribe(dataAPI);
         }
@@ -49,14 +60,9 @@ namespace Logic
             return this.dataAPI.getBallRadius(ballId);
         }
 
-        public override void createBalls(int numberOfBalls)
+        public override void createBallsAndStart(int numberOfBalls)
         {
-            dataAPI.createBalls(numberOfBalls);        
-        }
-
-        public override void start()
-        {
-            dataAPI.createBalls(20);
+            dataAPI.createBalls(numberOfBalls);
         }
 
         #region observer
