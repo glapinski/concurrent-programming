@@ -20,25 +20,22 @@ namespace DataTest
         [Test]
         public void spawnBallTest()
         {
-            Ball ball = new Ball(1);
 
-            Assert.IsTrue(ball.PositionX <= 500 && ball.PositionX >= 1);
-            Assert.IsTrue(ball.PositionY <= 500 && ball.PositionY >= 1);
+            Assert.IsTrue(testBall.PositionX <= 500 && testBall.PositionX >= 1);
+            Assert.IsTrue(testBall.PositionY <= 500 && testBall.PositionY >= 1);
 
-            Assert.IsTrue(ball.MoveX <= 5 && ball.MoveX >= 2);
-            Assert.IsTrue(ball.MoveY <= 5 && ball.MoveY >= 2);
+            Assert.IsTrue(testBall.MoveX <= 5 && testBall.MoveX >= 2);
+            Assert.IsTrue(testBall.MoveY <= 5 && testBall.MoveY >= 2);
         }
 
         [Test]
         public void changeBallPositionTest()
         {
-            Ball ball = new Ball(1);
-
-            double positionX = ball.PositionX;
-            double positionY = ball.PositionY;
-            ball.ChangeBallPosition();
-            Assert.AreEqual(ball.PositionX, positionX + ball.MoveX);
-            Assert.AreEqual(ball.PositionY, positionY + ball.MoveY);
+            double positionX = testBall.PositionX;
+            double positionY = testBall.PositionY;
+            testBall.ChangeBallPosition();
+            Assert.AreEqual(testBall.PositionX, positionX + testBall.MoveX);
+            Assert.AreEqual(testBall.PositionY, positionY + testBall.MoveY);
         }
     }
 }

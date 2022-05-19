@@ -5,32 +5,31 @@ namespace DataTest
 {
     internal class DataApiTest
     {
+        private DataAbstractAPI testDataApi;
         [SetUp]
         public void Setup()
         {
+            testDataApi = DataAbstractAPI.CreateDataApi();
         }
 
         [Test]
         public void createBallsTest()
         {
-           DataAbstractAPI dataapi = DataAbstractAPI.CreateDataApi();
 
-           dataapi.createBalls(2);
+            testDataApi.createBalls(2);
 
-            Assert.AreEqual(dataapi.getBallsAmount(), 2);
+            Assert.AreEqual(testDataApi.getBallsAmount(), 2);
         }
 
         [Test]
         public void ballsSpeedTest()
         {
-            DataAbstractAPI dataapi = DataAbstractAPI.CreateDataApi();
+            testDataApi.createBalls(1);
 
-            dataapi.createBalls(1);
+            testDataApi.setBallSpeed(1, 2, 2);
 
-            dataapi.setBallSpeed(1, 2, 2);
-
-            Assert.AreEqual(dataapi.getBallSpeedX(1), 2);
-            Assert.AreEqual(dataapi.getBallSpeedY(1), 2);
+            Assert.AreEqual(testDataApi.getBallSpeedX(1), 2);
+            Assert.AreEqual(testDataApi.getBallSpeedY(1), 2);
         }
     }
 }

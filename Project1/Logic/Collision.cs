@@ -16,11 +16,11 @@ namespace Logic
         private Vector2 position;
         private Vector2 velocity;
 
-        public Collision(double poitionX, double poitionY, double speedX, double speedY, int radious, int mass)
+        public Collision(double positionX, double positionY, double speedX, double speedY, int radius, int mass)
         {
             this.velocity = new Vector2(speedX, speedY);
-            this.position = new Vector2(poitionX, poitionY);
-            this.radious = radious;
+            this.position = new Vector2(positionX, positionY);
+            this.radious = radius;
             this.mass = mass;
         }
 
