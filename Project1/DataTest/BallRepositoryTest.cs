@@ -14,28 +14,29 @@ namespace DataTest
         [SetUp]
         public void Setup()
         {
-            testBallRepository = new BallRepository();
         }
 
         [Test]
         public void createBallsTest()
         {
-            testBallRepository.CreateBalls(2);
+            BallRepository ballRepository = new BallRepository();
 
-            Assert.AreEqual(testBallRepository.balls.Count, 2);
-            Assert.AreEqual(testBallRepository.balls[0].id, 1);
-            Assert.AreEqual(testBallRepository.balls[1].id, 2);
+            ballRepository.CreateBalls(2);
+
+            Assert.AreEqual(ballRepository.balls.Count, 2);
+            Assert.AreEqual(ballRepository.balls[0].Id, 1);
+            Assert.AreEqual(ballRepository.balls[1].Id, 2);
         }
 
         [Test]
         public void createRepoTest()
         {
-            Assert.IsNotNull(testBallRepository);
-            Assert.IsEmpty(testBallRepository.getBallList());
-            testBallRepository.CreateBalls(2);
-            Assert.IsNotEmpty(testBallRepository.getBallList());
-            Assert.IsNotNull(testBallRepository.getBall(1));
-            Assert.IsNotNull(testBallRepository.getBall(2));
+            BallRepository ballRepository = new BallRepository();
+
+            ballRepository.CreateBalls(2);
+
+            Assert.AreEqual(ballRepository.GetBall(1), ballRepository.balls[0]);
+            Assert.AreEqual(ballRepository.GetBall(2), ballRepository.balls[1]);
         }
     }
 }

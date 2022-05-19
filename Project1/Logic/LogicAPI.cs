@@ -25,7 +25,7 @@ namespace Logic
 
         public static LogicAPI CreateLayer(DataAbstractAPI data = default(DataAbstractAPI))
         {
-            return new BusinessLogic(data == null ? DataAbstractAPI.CreateAPI() : data);
+            return new BusinessLogic(data == null ? DataAbstractAPI.CreateDataApi() : data);
         }
 
         public class BallChaneEventArgs : EventArgs

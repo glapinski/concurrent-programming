@@ -13,7 +13,7 @@ namespace DataTest
         [Test]
         public void createBallsTest()
         {
-           DataAbstractAPI dataapi = DataAbstractAPI.CreateAPI();
+           DataAbstractAPI dataapi = DataAbstractAPI.CreateDataApi();
 
            dataapi.createBalls(2);
 
@@ -23,14 +23,14 @@ namespace DataTest
         [Test]
         public void ballsSpeedTest()
         {
-            DataAbstractAPI dataapi = DataAbstractAPI.CreateAPI();
+            DataAbstractAPI dataapi = DataAbstractAPI.CreateDataApi();
 
             dataapi.createBalls(1);
 
             dataapi.setBallSpeed(1, 2, 2);
 
-            Assert.AreEqual(dataapi.getBallXSpeed(1), 2);
-            Assert.AreEqual(dataapi.getBallYSpeed(1), 2);
+            Assert.AreEqual(dataapi.getBallSpeedX(1), 2);
+            Assert.AreEqual(dataapi.getBallSpeedY(1), 2);
         }
     }
 }
