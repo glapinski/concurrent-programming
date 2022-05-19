@@ -16,9 +16,9 @@
 
         <Canvas Width="650" Height="850">
             <Grid>
-                <Button x:Name="startButton" Content="START" Height="50" Width="100" Margin="275,744,275,40" IsEnabled="{Binding State}" Command="{Binding StartButtonClick}" />
-                <Label  Height="50"  Width="240" Margin="205,612,205,172" Content="{Binding ErrorMessage}"/>
-                <TextBox IsEnabled="{Binding State}" Name="intputText" Text="{Binding InputText}" FontSize="30" TextAlignment="Center" Height="50"  Width="240" BorderBrush="Black"  BorderThickness="2" Margin="205,667,205,117"/>
+                <Button x:Name="startButton" Content="Start" Height="50" Width="100" Margin="295,667,255,117" IsEnabled="{Binding State}" Command="{Binding StartButtonClick}" />
+                <Label  Margin="400,667,63,117" FontSize="15" FontWeight="Bold" Content="{Binding ErrorMessage}"/>
+                <TextBox IsEnabled="{Binding State}" Name="intputText" Text="{Binding InputText}" FontSize="30" TextAlignment="Center" Height="50"  Width="240" BorderBrush="Black"  BorderThickness="2" Margin="50,667,360,117"/>
 
                 <Grid x:Name="board" Height="550" Width="550" Margin="25,27,25,207" >
 
@@ -32,7 +32,7 @@
 
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Ellipse Width= "{Binding Diameter}" Height="{Binding Diameter}" Fill="Blue" />
+                                    <Ellipse Width= "{Binding Diameter}" Height="{Binding Diameter}" Fill="Red" Stroke="Black"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
 
