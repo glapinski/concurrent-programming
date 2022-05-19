@@ -9,185 +9,164 @@ namespace Data
         public abstract double getBallPositionX(int ballId);
         public abstract double getBallPositionY(int ballId);
         public abstract int getBallRadius(int ballId);
-
-        public abstract double getBallMass(int ballId);
         public abstract double getBallSpeedX(int ballId);
         public abstract double getBallSpeedY(int ballId);
-        public abstract void setBallSpeed(int ballId, double xSpeed, double ySpeed);
+        public abstract double getBallMass(int ballId);
+        public abstract int getBoardSize();
+        public abstract void setBallSpeed(int ballId, double speedX, double speedY);
         public abstract void createBalls(int ballsAmount);
+        public abstract int getBallsAmount();
+
         public abstract void OnCompleted();
         public abstract void OnError(Exception error);
         public abstract void OnNext(int value);
 
-        public abstract int getBallsAmount();
-        public abstract int getBoardSize();
-
         public abstract IDisposable Subscribe(IObserver<int> observer);
-        public static DataAbstractAPI CreateAPI()
-        { 
-            return new DataAPI(); 
-        }
-    }
-    internal class DataAPI : DataAbstractAPI
-    {
-        private BallRepository ballRepository;
-        private IDisposable unsubscriber;
 
-        private IList<IObserver<int>> observers;
-        static object _lock = new object();
-        private Barrier barrier;
-        public DataAPI()
+        public static DataAbstractAPI CreateDataApi()
         {
-            this.ballRepository = new BallRepository();
-            observers = new List<IObserver<int>>();
+            return new DataApi();
         }
-        public override void createBalls(int ballsAmount)
-        {
-            barrier = new Barrier(ballsAmount);
-            ballRepository.CreateBalls(ballsAmount);
 
-            foreach (var ball in ballRepository.balls)
+        private class DataApi : DataAbstractAPI
+        {
+            private BallRepository ballRepository;
+            private IDisposable unsubscriber;
+            static object _lock = new object();
+            private IList<IObserver<int>> observers;
+            private Barrier barrier;
+
+            public DataApi()
             {
-                Subscribe(ball);
-                ball.StartMove();
+                this.ballRepository = new BallRepository();
+
+                observers = new List<IObserver<int>>();
             }
-        }
 
-        public override double getBallPositionX(int ballId)
-        {
-            return this.ballRepository.getBall(ballId).x;
-        }
-
-        public override int getBallsAmount()
-        {
-            return ballRepository.balls.Count;
-        }
-
-        public override double getBallPositionY(int ballId)
-        {
-            return this.ballRepository.getBall(ballId).y;
-        }
-
-        public override int getBallRadius(int ballId)
-        {
-            return this.ballRepository.getBall(ballId).r;
-        }
-
-        public override double getBallSpeedX(int ballId)
-        {
-            return this.ballRepository.getBall(ballId).xS;
-        }
-        public override double getBallSpeedY(int ballId)
-        {
-            return this.ballRepository.getBall(ballId).yS;
-        }
-        public override void setBallSpeed(int ballId, double xSpeed, double ySpeed)
-        {
-            this.ballRepository.getBall(ballId).xS = xSpeed;
-            this.ballRepository.getBall(ballId).yS = ySpeed;
-        }
-
-        public override int getBoardSize()
-        {
-            return ballRepository.BoardSize;
-        }
-
-        public override double getBallMass(int ballId)
-        {
-            return this.ballRepository.getBall(ballId).m;
-        }
-
-        #region observer
-
-        public virtual void Subscribe(IObservable<int> provider)
-        {
-            if (provider != null)
-                unsubscriber = provider.Subscribe(this);
-        }
-
-        public override void OnCompleted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void OnError(Exception error)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void OnNext(int ballId)
-        {
-            Monitor.Enter(_lock);
-            try
+            public override double getBallPositionX(int ballId)
             {
-                int threadId = Thread.CurrentThread.ManagedThreadId;
-                System.Diagnostics.Debug.WriteLine("Observer: Ball: " + ballId + " moved on thread: " + threadId);
+                return this.ballRepository.GetBall(ballId).PositionX;
+            }
+
+            public override double getBallPositionY(int ballId)
+            {
+                return this.ballRepository.GetBall(ballId).PositionY;
+            }
+
+            public override int getBoardSize()
+            {
+                return ballRepository.BoardSize;
+            }
+
+            public override double getBallMass(int ballId)
+            {
+                return this.ballRepository.GetBall(ballId).Mass;
+            }
+
+            public override int getBallRadius(int ballId)
+            {
+                return this.ballRepository.GetBall(ballId).Radius;
+            }
+
+            public override double getBallSpeedX(int ballId)
+            {
+                return this.ballRepository.GetBall(ballId).MoveX;
+            }
+
+            public override double getBallSpeedY(int ballId)
+            {
+                return this.ballRepository.GetBall(ballId).MoveY;
+            }
+
+            public override void setBallSpeed(int ballId, double speedX, double speedY)
+            {
+                this.ballRepository.GetBall(ballId).MoveX = speedX;
+                this.ballRepository.GetBall(ballId).MoveY = speedY;
+            }
+
+            public override int getBallsAmount()
+            {
+                return ballRepository.balls.Count;
+            }
+
+            public override void createBalls(int ballsAmount)
+            {
+                barrier = new Barrier(ballsAmount);
+                ballRepository.CreateBalls(ballsAmount);
+
+                foreach (var ball in ballRepository.balls)
+                {
+                    Subscribe(ball);
+                    ball.StartMoving();
+                }
+
+            }
+
+            #region observer
+
+            public virtual void Subscribe(IObservable<int> provider)
+            {
+                if (provider != null)
+                    unsubscriber = provider.Subscribe(this);
+            }
+
+            public override void OnCompleted()
+            {
+                Unsubscribe();
+            }
+
+            public override void OnError(Exception error)
+            {
+                throw error;
+            }
+
+            public override void OnNext(int value)
+            {
+                barrier.SignalAndWait();
 
                 foreach (var observer in observers)
                 {
-                    observer.OnNext(ballId);
+                    observer.OnNext(value);
                 }
-                // Critical piece of code
 
-                /*     int threadId = Thread.CurrentThread.ManagedThreadId;
-                     Console.WriteLine($" Thread: {threadId} Entered into the critical section ");
-                     for (int num = 1; num <= 3; num++)
-                     {
-                         Console.WriteLine($" num: {num}");
-                         //Pausing the thread execution for 2 seconds
-                         //Thread.Sleep(TimeSpan.FromSeconds(2));
-                     }*/
             }
 
-            catch (SynchronizationLockException exception)
+            public virtual void Unsubscribe()
             {
-                Console.WriteLine(exception.Message);
+                unsubscriber.Dispose();
             }
 
-            finally
+            #endregion
+
+            #region provider
+
+            public override IDisposable Subscribe(IObserver<int> observer)
             {
-                // Releasing object
-                Monitor.Exit(_lock);
-                //Console.WriteLine($"Thread : {Thread.CurrentThread.ManagedThreadId} Released");
+                if (!observers.Contains(observer))
+                    observers.Add(observer);
+                return new Unsubscriber(observers, observer);
             }
 
-        }
-
-        public virtual void Unsubscribe()
-        {
-            unsubscriber.Dispose();
-        }
-
-        #endregion
-
-        #region provider
-
-        public override IDisposable Subscribe(IObserver<int> observer)
-        {
-            if (!observers.Contains(observer))
-                observers.Add(observer);
-            return new Unsubscriber(observers, observer);
-        }
-
-        private class Unsubscriber : IDisposable
-        {
-            private IList<IObserver<int>> _observers;
-            private IObserver<int> _observer;
-
-            public Unsubscriber
-            (IList<IObserver<int>> observers, IObserver<int> observer)
+            private class Unsubscriber : IDisposable
             {
-                _observers = observers;
-                _observer = observer;
+                private IList<IObserver<int>> _observers;
+                private IObserver<int> _observer;
+
+                public Unsubscriber
+                (IList<IObserver<int>> observers, IObserver<int> observer)
+                {
+                    _observers = observers;
+                    _observer = observer;
+                }
+
+                public void Dispose()
+                {
+                    if (_observer != null && _observers.Contains(_observer))
+                        _observers.Remove(_observer);
+                }
             }
 
-            public void Dispose()
-            {
-                if (_observer != null && _observers.Contains(_observer))
-                    _observers.Remove(_observer);
-            }
+            #endregion
         }
-
-        #endregion
     }
 }

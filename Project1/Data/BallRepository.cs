@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Data
 {
-    internal class BallRepository
+    public class BallRepository
     {
         public List<Ball> balls { get; set; }
-
         public int BoardSize { get; private set; } = 515;
 
         public BallRepository()
@@ -23,17 +23,9 @@ namespace Data
             }
         }
 
-        public Ball getBall(int ballId)
+        public Ball GetBall(int ballId)
         {
-            if (balls[ballId - 1] != null)
-            {
-                return balls[ballId - 1];
-            }
-            return null;
-        }
-        public List<Ball> getBallList()
-        {
-            return balls;
+            return balls[ballId - 1];
         }
     }
 }
