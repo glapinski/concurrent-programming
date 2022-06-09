@@ -25,6 +25,8 @@ namespace Data
 
         public bool isRunning = true;
 
+        public int counter { get; set; } = 1;
+
 
         internal readonly IList<IObserver<IBall>> observers;
         Stopwatch stopwatch;
@@ -58,12 +60,16 @@ namespace Data
             while (isRunning)
             {
                 long time = stopwatch.ElapsedMilliseconds;
-
+                counter++;
                 stopwatch.Restart();
                 stopwatch.Start();
 
                 ChangeBallPosition(time);
-                dao.addToBuffer(this);
+                if (counter % 100 == 0)
+                {
+                    dao.addToBuffer(this);
+                    counter = 1;
+                }
 
                 foreach (var observer in observers.ToList())
                 {
