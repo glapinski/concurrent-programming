@@ -45,24 +45,19 @@ namespace Model
             public ModelBall()
             {
                 logicApi = logicApi ?? LogicAPI.CreateLayer();
-                IDisposable observer = logicApi.Subscribe<int>(x => Balls[x - 1].Move(logicApi.getBallPositionX(x), logicApi.getBallPositionY(x)));
+                IDisposable observer = logicApi.Subscribe(x => Balls[x.Id - 1].Move(x.PositionX, x.PositionY));
                 eventObservable = Observable.FromEventPattern<BallChaneEventArgs>(this, "BallChanged");
             }
 
             public override void AddBallsAndStart(int ballsAmount)
             {
-                logicApi.AddBallsAndStart(ballsAmount);
                 for (int i = 1; i <= ballsAmount; i++)
                 {
-                    BallInModel newBall = new BallInModel(logicApi.getBallPositionX(i), logicApi.getBallPositionY(i), logicApi.getBallRadius(i));
+                    BallInModel newBall = new BallInModel(0, 0, 15);
                     Balls.Add(newBall);
+                    BallChanged?.Invoke(this, new BallChaneEventArgs() { Ball = newBall });
                 }
-
-                foreach (BallInModel ball in Balls)
-                {
-                    BallChanged?.Invoke(this, new BallChaneEventArgs() { Ball = ball });
-                }
-
+                logicApi.AddBallsAndStart(ballsAmount);
             }
 
             public override IDisposable Subscribe(IObserver<IBall> observer)

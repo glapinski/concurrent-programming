@@ -11,13 +11,11 @@ namespace Model
 {
     public class BallInModel : IBall
     {
-        //public int BallId { get; set; }
         public int Diameter { get; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public BallInModel(double top, double left, int radius)
         {
-            //this.BallId = ballId;
             Top = top;
             Left = left;
             Diameter = radius * 2;

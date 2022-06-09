@@ -46,7 +46,8 @@ namespace Data
 
         public void writter()
         {
-            sw = new StreamWriter("../../../../../Data/log.txt", append: true);
+            //sw = new StreamWriter("../../../../../Data/log.txt", append: true);
+            sw = new StreamWriter("../../../../Data/log.txt", append: true);
             try
             {
                 foreach (string i in buffer.GetConsumingEnumerable())
