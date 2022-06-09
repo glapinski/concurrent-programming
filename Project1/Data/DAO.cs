@@ -23,7 +23,8 @@ namespace Data
 
         public void addToBuffer(Ball ball)
         {
-            string log = " Ball "
+            string time = DateTime.Now.ToString("h:mm:ss tt");
+            string log = time + " Ball "
                     + ball.Id
                     + " moved: "
                     + " PositionX: "
