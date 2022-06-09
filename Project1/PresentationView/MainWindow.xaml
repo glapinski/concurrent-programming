@@ -5,20 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm1="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="Concurrent programming" 
-        Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
-        Width="{x:Static SystemParameters.PrimaryScreenWidth}"
-        WindowState="Maximized">
+        Title="Project" 
+        Height="800" 
+        Width="1000">
     <Window.DataContext>
         <vm1:ViewModelMainWindow />
     </Window.DataContext>
     <StackPanel Orientation="Vertical">
 
         <Canvas Width="650" Height="850">
-            <Grid>
-                <Button x:Name="startButton" Content="START" Height="50" Width="100" Margin="275,744,275,40" IsEnabled="{Binding State}" Command="{Binding StartButtonClick}" />
-                <Label  Height="50"  Width="240" Margin="205,612,205,172" Content="{Binding ErrorMessage}"/>
-                <TextBox IsEnabled="{Binding State}" Name="intputText" Text="{Binding InputText}" FontSize="30" TextAlignment="Center" Height="50"  Width="240" BorderBrush="Black"  BorderThickness="2" Margin="205,667,205,117"/>
+            <Grid Canvas.Left="10" Canvas.Top="-41" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Button x:Name="startButton" Content="START" Height="50" FontSize="25" Width="100" Margin="-131,327,681,457" IsEnabled="{Binding State}" Command="{Binding StartButtonClick}" />
+                <Label  Margin="-166,179,629,605" FontSize="15" FontWeight="Bold" Content="{Binding ErrorMessage}"/>
+                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Text="Podaj ilosc kulek" Margin="-122,229,0,0" Height="21" Width="100"/>
+                <TextBox IsEnabled="{Binding State}" Name="intputText" Text="{Binding InputText}" FontSize="30" TextAlignment="Center" Height="50" BorderBrush="Black"  BorderThickness="2" Margin="-166,255,646,529"/>
 
                 <Grid x:Name="board" Height="550" Width="550" Margin="25,27,25,207" >
 
@@ -32,7 +32,7 @@
 
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Ellipse Width= "{Binding Diameter}" Height="{Binding Diameter}" Fill="Blue" />
+                                    <Ellipse Width= "{Binding Diameter}" Height="{Binding Diameter}" Fill="Red" Stroke="Black"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
 

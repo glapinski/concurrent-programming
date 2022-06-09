@@ -97,7 +97,7 @@ namespace ViewModel
                 }
                 return number;
             }
-            ErrorMessage = "Nieprawidłowa liczba";
+            ErrorMessage = "Nieprawidłowa wartość";
             return 0;
         }
 

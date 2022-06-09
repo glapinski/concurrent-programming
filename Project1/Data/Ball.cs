@@ -34,8 +34,8 @@ namespace Data
             this.PositionX = Convert.ToDouble(random.Next(1, 500));
             this.PositionY = Convert.ToDouble(random.Next(1, 500));
 
-            this.MoveX = random.NextDouble() * (5 - 2) + 2;
-            this.MoveY = random.NextDouble() * (5 - 2) + 2;
+            this.MoveX = random.NextDouble() * (3 - 2) + 2;
+            this.MoveY = random.NextDouble() * (3 - 2) + 2;
         }
 
         public void StartMoving()
