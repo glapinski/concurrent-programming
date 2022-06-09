@@ -17,3 +17,4 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("be28187f-48ea-4b55-9bd1-8cbe49c0e8cd")]
 [assembly: InternalsVisibleTo("DataTest")]
+//[assembly: InternalsVisibleTo("LogicTest")]
