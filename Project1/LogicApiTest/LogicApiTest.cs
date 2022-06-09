@@ -16,14 +16,12 @@ namespace LogicTest
         {
             testLogicAPI = LogicAPI.CreateLayer();
         }
-        [Test]
+        /*[Test]
         public void getBallRadiusTest()
         {
             testLogicAPI.AddBallsAndStart(1);
 
             Assert.AreEqual(testLogicAPI.getBallRadius(1), 15);
-        }
-
-
+        }*/
     }
 }
