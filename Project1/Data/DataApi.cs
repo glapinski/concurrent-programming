@@ -4,86 +4,45 @@ using System.Threading;
 
 namespace Data
 {
-    public abstract class DataAbstractAPI : IObserver<int>, IObservable<int>
+    public abstract class DataAbstractAPI : IObserver<IBall>, IObservable<IBall>
     {
-        public abstract double getBallPositionX(int ballId);
-        public abstract double getBallPositionY(int ballId);
-        public abstract int getBallRadius(int ballId);
-        public abstract double getBallSpeedX(int ballId);
-        public abstract double getBallSpeedY(int ballId);
-        public abstract double getBallMass(int ballId);
         public abstract int getBoardSize();
-        public abstract void setBallSpeed(int ballId, double speedX, double speedY);
         public abstract void createBalls(int ballsAmount);
         public abstract int getBallsAmount();
 
         public abstract void OnCompleted();
         public abstract void OnError(Exception error);
-        public abstract void OnNext(int value);
+        public abstract void OnNext(IBall Ball);
 
-        public abstract IDisposable Subscribe(IObserver<int> observer);
+        public abstract IDisposable Subscribe(IObserver<IBall> observer);
 
         public static DataAbstractAPI CreateDataApi()
         {
             return new DataApi();
         }
 
+        public class BallChaneEventArgs : EventArgs
+        {
+            public IBall newBall { get; set; }
+        }
+
         private class DataApi : DataAbstractAPI
         {
             private BallRepository ballRepository;
             private IDisposable unsubscriber;
-            static object _lock = new object();
-            private IList<IObserver<int>> observers;
-            private Barrier barrier;
+            private IList<IObserver<IBall>> observers;
 
             public DataApi()
             {
                 this.ballRepository = new BallRepository();
 
-                observers = new List<IObserver<int>>();
-            }
-
-            public override double getBallPositionX(int ballId)
-            {
-                return this.ballRepository.GetBall(ballId).PositionX;
-            }
-
-            public override double getBallPositionY(int ballId)
-            {
-                return this.ballRepository.GetBall(ballId).PositionY;
+                observers = new List<IObserver<IBall>>();
             }
 
             public override int getBoardSize()
             {
                 return ballRepository.BoardSize;
             }
-
-            public override double getBallMass(int ballId)
-            {
-                return this.ballRepository.GetBall(ballId).Mass;
-            }
-
-            public override int getBallRadius(int ballId)
-            {
-                return this.ballRepository.GetBall(ballId).Radius;
-            }
-
-            public override double getBallSpeedX(int ballId)
-            {
-                return this.ballRepository.GetBall(ballId).MoveX;
-            }
-
-            public override double getBallSpeedY(int ballId)
-            {
-                return this.ballRepository.GetBall(ballId).MoveY;
-            }
-
-            public override void setBallSpeed(int ballId, double speedX, double speedY)
-            {
-                this.ballRepository.GetBall(ballId).MoveX = speedX;
-                this.ballRepository.GetBall(ballId).MoveY = speedY;
-            }
-
             public override int getBallsAmount()
             {
                 return ballRepository.balls.Count;
@@ -91,7 +50,6 @@ namespace Data
 
             public override void createBalls(int ballsAmount)
             {
-                barrier = new Barrier(ballsAmount);
                 ballRepository.CreateBalls(ballsAmount);
 
                 foreach (var ball in ballRepository.balls)
@@ -104,7 +62,7 @@ namespace Data
 
             #region observer
 
-            public virtual void Subscribe(IObservable<int> provider)
+            public virtual void Subscribe(IObservable<IBall> provider)
             {
                 if (provider != null)
                     unsubscriber = provider.Subscribe(this);
@@ -120,13 +78,11 @@ namespace Data
                 throw error;
             }
 
-            public override void OnNext(int value)
+            public override void OnNext(IBall ball)
             {
-                barrier.SignalAndWait();
-
                 foreach (var observer in observers)
                 {
-                    observer.OnNext(value);
+                    observer.OnNext(ball);
                 }
 
             }
@@ -140,7 +96,7 @@ namespace Data
 
             #region provider
 
-            public override IDisposable Subscribe(IObserver<int> observer)
+            public override IDisposable Subscribe(IObserver<IBall> observer)
             {
                 if (!observers.Contains(observer))
                     observers.Add(observer);
@@ -149,11 +105,11 @@ namespace Data
 
             private class Unsubscriber : IDisposable
             {
-                private IList<IObserver<int>> _observers;
-                private IObserver<int> _observer;
+                private IList<IObserver<IBall>> _observers;
+                private IObserver<IBall> _observer;
 
                 public Unsubscriber
-                (IList<IObserver<int>> observers, IObserver<int> observer)
+                (IList<IObserver<IBall>> observers, IObserver<IBall> observer)
                 {
                     _observers = observers;
                     _observer = observer;
