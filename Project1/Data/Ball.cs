@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Data
 {
-    public class Ball : IObservable<int>
+    public class Ball : IBall
     {
         public int Id { get; }
 
@@ -16,26 +17,34 @@ namespace Data
         public int Radius { get; } = 15;
         public double Mass { get; } = 10;
 
+        public double SpeedX { get; set; }
+        public double SpeedY { get; set; }
+
         public double MoveX { get; set; }
         public double MoveY { get; set; }
 
-        internal readonly IList<IObserver<int>> observers;
+        public bool isRunning = true;
 
+
+        internal readonly IList<IObserver<IBall>> observers;
+        Stopwatch stopwatch;
         private Task BallThread;
+
+        internal DAO dao { get; set; }
 
         public Ball(int id)
         {
             this.Id = id;
 
             Random random = new Random();
-
-            observers = new List<IObserver<int>>();
+            stopwatch = new Stopwatch();
+            observers = new List<IObserver<IBall>>();
 
             this.PositionX = Convert.ToDouble(random.Next(1, 500));
             this.PositionY = Convert.ToDouble(random.Next(1, 500));
 
-            this.MoveX = random.NextDouble() * (3 - 2) + 2;
-            this.MoveY = random.NextDouble() * (3 - 2) + 2;
+            this.SpeedX = random.NextDouble() * (0.2 - 0) + 0;
+            this.SpeedY = random.NextDouble() * (0.2 - 0) + 0;
         }
 
         public void StartMoving()
@@ -46,30 +55,48 @@ namespace Data
 
         public void MoveBall()
         {
-            while (true)
+            while (isRunning)
             {
-                ChangeBallPosition();
+                long time = stopwatch.ElapsedMilliseconds;
+
+                stopwatch.Restart();
+                stopwatch.Start();
+
+                ChangeBallPosition(time);
+                dao.addToBuffer(this);
 
                 foreach (var observer in observers.ToList())
                 {
                     if (observer != null)
                     {
-                        observer.OnNext(Id);
+                        observer.OnNext(this);
                     }
                 }
-                System.Threading.Thread.Sleep(1);
+                stopwatch.Stop();
             }
         }
 
-        public void ChangeBallPosition()
+        public void ChangeBallPosition(long time)
         {
+
+            if (time > 0)
+            {
+                MoveX = SpeedX / 5 * time;
+                MoveY = SpeedY / 5 * time;
+            }
+            else
+            {
+                MoveX = SpeedX / 5;
+                MoveY = SpeedY / 5;
+            }
+
             PositionX += MoveX;
             PositionY += MoveY;
         }
 
         #region provider
 
-        public IDisposable Subscribe(IObserver<int> observer)
+        public IDisposable Subscribe(IObserver<IBall> observer)
         {
             if (!observers.Contains(observer))
                 observers.Add(observer);
@@ -78,11 +105,11 @@ namespace Data
 
         private class Unsubscriber : IDisposable
         {
-            private IList<IObserver<int>> _observers;
-            private IObserver<int> _observer;
+            private IList<IObserver<IBall>> _observers;
+            private IObserver<IBall> _observer;
 
             public Unsubscriber
-            (IList<IObserver<int>> observers, IObserver<int> observer)
+            (IList<IObserver<IBall>> observers, IObserver<IBall> observer)
             {
                 _observers = observers;
                 _observer = observer;
